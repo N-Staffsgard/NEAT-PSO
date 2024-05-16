@@ -44,7 +44,8 @@ def eval_genomes(genomes, config):
         for xi, xo in zip(train_dataset, train_labels):
             # print(xi.shape)
             output = torch.tensor(net.activate(xi))
-            loss = ((output-xo)**2).sum()
+            # loss = ((output-xo)**2).sum()
+            loss = torch.nn.functional.cross_entropy(output, xo)
             fitness.append(-loss.item())
             # print(genome.fitness)
         genome.fitness = sum(fitness) / len(fitness)
@@ -56,7 +57,8 @@ def eval_genome(genome, config):
     for xi, xo in zip(train_dataset, train_labels):
         # print(xi.shape)
         output = torch.tensor(net.activate(xi))
-        loss = ((output-xo)**2).sum()
+        # loss = ((output-xo)**2).sum()
+        loss = torch.nn.functional.cross_entropy(output, xo)
         fitness.append(-loss.item())
         # print(genome.fitness)
     return sum(fitness) / len(fitness)
